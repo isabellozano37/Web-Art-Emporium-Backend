@@ -14,7 +14,7 @@ namespace Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id_DetallesCompras { get; set; }
         public int Precio { get; set; }
-        public int Cantidad { get; set; }
+        public int Precio_Total { get; set; }
 
         [ForeignKey ("Productos")]
         public int IdProductos { get; set;}

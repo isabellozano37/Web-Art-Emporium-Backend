@@ -29,5 +29,7 @@ namespace Entities.Entities
         public virtual Solicitud Solicitud { get; set; }
         public virtual Categoria Categorias { get; set; }
 
+        public ICollection<DetallesCompras> DetallesCompras { get; set; }
+
     }
 }

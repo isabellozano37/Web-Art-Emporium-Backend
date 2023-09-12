@@ -15,10 +15,7 @@ namespace Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdTipos { get; set; }
-        public string Oleo { get; set;}
-        public string Acuarela { get; set;}
-        public string Bustos { get; set;}
-        public string Ceramicas { get; set;}
+        public string Nombre_Tipo { get; set;}
 
         [ForeignKey ("Categoria")]
         public int IdCategoria { get; set; }
