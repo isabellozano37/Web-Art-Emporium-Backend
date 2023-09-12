@@ -16,14 +16,15 @@ namespace Entities.Entities
         public string Descripción { get; set;}
         public string Precio { get; set; }
 
-        [ForeignKey ("DetallesCompras")]
-        public int IdDetallesCompras { get; set; }
+        [ForeignKey ("Solicitud")]
+        public int IdSolicitud { get; set; }
+
         [ForeignKey("Categorias")]
         public int IdCategorias { get; set; }
 
         [JsonIgnore]
-        public virtual DetallesCompras detallesCompras { get; set; }
-        public virtual Categorias Categorias { get; set; }
+        public virtual Solicitud solicitud { get; set; }
+        public virtual Categorias categorias { get; set; }
 
     }
 }

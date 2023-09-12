@@ -9,22 +9,28 @@ using System.Threading.Tasks;
 
 namespace Entities.Entities
 {
-    public class Clientes
+    public class Usuario
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id_Clientes { get; set; }
-        public string Nombre_Cientes { get; set; }
-        public string Apellidos_Clientes { get; set; }
-        public string Direccion_Clientes { get; set; }
+        public int Id_Usuario { get; set; }
+        public string Nombre_Usuario { get; set; }
+        public string Apellidos_Usuario { get; set; }
+        public string Direccion_Usuario { get; set; }
         public string Telefono { get; set; }
-        public String Email { get; set; }
+        public string Email { get; set; }
+        public string Contraseña { get; set; }  
 
         [ForeignKey("Roll")]
         public int IdRoll { get; set; }
 
         [JsonIgnore]
         public virtual Roll Roll { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Compras> compras { get; set; }
+        public ICollection<Solicitud> Solicitud { get; set; }
+
     }
 }
 

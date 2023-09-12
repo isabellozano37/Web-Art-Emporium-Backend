@@ -11,8 +11,8 @@ namespace Entities.Entities
         public int Id_Compras { get; set; }
         public DateTime FechaPedido { get; set; }
         public DateTime FechaEntrega { get; set; }
-        [ForeignKey ("Clientes")]
-        public int IdClientes { get; set; }
+        [ForeignKey ("Usuario")]
+        public int IdUsuario { get; set; }
         
         [ForeignKey ("Productos")]
         public int IdProductos { get; set; }        
