@@ -22,13 +22,16 @@ namespace Entities.Entities
         [ForeignKey ("Solicitud")]
         public int IdSolicitud { get; set; }
 
-        [ForeignKey("Categorias")]
-        public int IdCategorias { get; set; }
+        [ForeignKey("Tipos")]
+        public int IdTipos { get; set; }
 
         [JsonIgnore]
         public virtual Solicitud Solicitud { get; set; }
-        public virtual Categoria Categorias { get; set; }
 
+        [JsonIgnore]
+        public virtual Tipos Tipos { get; set; }
+
+        [JsonIgnore]
         public ICollection<DetallesCompras> DetallesCompras { get; set; }
 
     }

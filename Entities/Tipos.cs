@@ -21,8 +21,9 @@ namespace Entities
         public int IdCategoria { get; set; }
 
         [JsonIgnore]
-        public virtual Categoria categoria { get; set; }
+        public virtual Categoria Categoria { get; set; }
 
-
+        [JsonIgnore]
+        public ICollection<Productos> Productos { get; set; }
     }
 }

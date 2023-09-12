@@ -12,7 +12,6 @@ using Entities;
 
 namespace Data
 {
-
     public class ServiceContext : DbContext {
         public ServiceContext(DbContextOptions<ServiceContext> Options) : base(Options) { }
         public DbSet<Productos> Productos { get; set; }
@@ -62,27 +61,25 @@ namespace Data
                entity.ToTable("Solicitud");
             });
 
-            }
-
         }
-            
-              
 
-        public class ServiceContextFactory : IDesignTimeDbContextFactory<ServiceContext>
+    }
+    public class ServiceContextFactory : IDesignTimeDbContextFactory<ServiceContext>
+    {
+        public ServiceContext CreateDbContext(string[] args)
         {
-            public ServiceContext CreateDbContext(string[] args)
-            {
-                var builder = new ConfigurationBuilder()
-                       .SetBasePath(Directory.GetCurrentDirectory())
-                       .AddJsonFile("appsettings.json", false, true);
-                var config = builder.Build();
-                var connectionString = config.GetConnectionString("ServiceContext");
-                var optionsBuilder = new DbContextOptionsBuilder<ServiceContext>();
-                optionsBuilder.UseSqlServer(config.GetConnectionString("ServiceContext"));
-                return new ServiceContext(optionsBuilder.Options);
-            }
+            var builder = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("appsettings.json", false, true);
+            var config = builder.Build();
+            var connectionString = config.GetConnectionString("ServiceContext");
+            var optionsBuilder = new DbContextOptionsBuilder<ServiceContext>();
+            optionsBuilder.UseSqlServer(config.GetConnectionString("ServiceContext"));
+            return new ServiceContext(optionsBuilder.Options);
+
         }
     }
+}
 
 
 

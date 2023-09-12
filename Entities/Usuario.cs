@@ -29,6 +29,8 @@ namespace Entities.Entities
 
         [JsonIgnore]
         public ICollection<Compras> compras { get; set; }
+
+        [JsonIgnore]
         public ICollection<Solicitud> Solicitud { get; set; }
 
     }
