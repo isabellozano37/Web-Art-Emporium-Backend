@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web-Art-Emporium", "Web-Art-Emporium\Web-Art-Emporium.csproj", "{EF9FEC2A-E036-486F-8592-6AD27F53CA2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web-Art-Emporium", "Web-Art-Emporium\Web-Art-Emporium.csproj", "{EF9FEC2A-E036-486F-8592-6AD27F53CA2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{75DA82C2-F9F5-403B-85C2-0101DFCF6D9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{FEF610E6-0F96-41C8-B1A3-35673D40E50D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{EF9FEC2A-E036-486F-8592-6AD27F53CA2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF9FEC2A-E036-486F-8592-6AD27F53CA2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF9FEC2A-E036-486F-8592-6AD27F53CA2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75DA82C2-F9F5-403B-85C2-0101DFCF6D9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75DA82C2-F9F5-403B-85C2-0101DFCF6D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75DA82C2-F9F5-403B-85C2-0101DFCF6D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75DA82C2-F9F5-403B-85C2-0101DFCF6D9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEF610E6-0F96-41C8-B1A3-35673D40E50D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEF610E6-0F96-41C8-B1A3-35673D40E50D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEF610E6-0F96-41C8-B1A3-35673D40E50D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEF610E6-0F96-41C8-B1A3-35673D40E50D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
