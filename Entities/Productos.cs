@@ -26,8 +26,8 @@ namespace Entities.Entities
         public int IdCategorias { get; set; }
 
         [JsonIgnore]
-        public virtual Solicitud solicitud { get; set; }
-        public virtual Categorias categorias { get; set; }
+        public virtual Solicitud Solicitud { get; set; }
+        public virtual Categoria Categorias { get; set; }
 
     }
 }
