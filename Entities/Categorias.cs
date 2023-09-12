@@ -14,11 +14,9 @@ namespace Entities.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-<<<<<<< HEAD
+
         public int Id_Categoria { get; set; }
-=======
-        public int Id_Categoria{ get; set; }
->>>>>>> fc4ec375b969eedd98601f3784d67c6791eae93b
+
         public string Pintura { get; set; }
         public string Escultura { get; set; }
 
