@@ -14,7 +14,9 @@ namespace Entities.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id_Categoria{ get; set; }
+
+        public int Id_Categoria { get; set; }
+
         public string Pintura { get; set; }
         public string Escultura { get; set; }
 

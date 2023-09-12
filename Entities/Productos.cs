@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace Entities.Entities
 {
     public class Productos
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdProductos { get; set; }
         public string Imagen { get; set; }
         public string Nombre { get; set; }
@@ -23,8 +26,8 @@ namespace Entities.Entities
         public int IdCategorias { get; set; }
 
         [JsonIgnore]
-        public virtual Solicitud solicitud { get; set; }
-        public virtual Categorias categorias { get; set; }
+        public virtual Solicitud Solicitud { get; set; }
+        public virtual Categoria Categorias { get; set; }
 
     }
 }
