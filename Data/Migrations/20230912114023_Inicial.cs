@@ -17,28 +17,11 @@ namespace Data.Migrations
                 {
                     Id_Categoria = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Pintura = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Escultura = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Nombre_Categoria = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categoria", x => x.Id_Categoria);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DetallesCompras",
-                columns: table => new
-                {
-                    Id_DetallesCompras = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Precio = table.Column<int>(type: "int", nullable: false),
-                    Cantidad = table.Column<int>(type: "int", nullable: false),
-                    IdProductos = table.Column<int>(type: "int", nullable: false),
-                    IdCompras = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DetallesCompras", x => x.Id_DetallesCompras);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,10 +43,7 @@ namespace Data.Migrations
                 {
                     IdTipos = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Oleo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Acuarela = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Bustos = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ceramicas = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nombre_Tipo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdCategoria = table.Column<int>(type: "int", nullable: false),
                     categoriaId_Categoria = table.Column<int>(type: "int", nullable: false)
                 },
@@ -112,18 +92,11 @@ namespace Data.Migrations
                     FechaPedido = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FechaEntrega = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUsuario = table.Column<int>(type: "int", nullable: false),
-                    IdProductos = table.Column<int>(type: "int", nullable: false),
-                    ComprasId_Compras = table.Column<int>(type: "int", nullable: true),
                     UsuarioId_Usuario = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Compras", x => x.Id_Compras);
-                    table.ForeignKey(
-                        name: "FK_Compras_Compras_ComprasId_Compras",
-                        column: x => x.ComprasId_Compras,
-                        principalTable: "Compras",
-                        principalColumn: "Id_Compras");
                     table.ForeignKey(
                         name: "FK_Compras_Usuario_UsuarioId_Usuario",
                         column: x => x.UsuarioId_Usuario,
@@ -186,15 +159,48 @@ namespace Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Compras_ComprasId_Compras",
-                table: "Compras",
-                column: "ComprasId_Compras");
+            migrationBuilder.CreateTable(
+                name: "DetallesCompras",
+                columns: table => new
+                {
+                    Id_DetallesCompras = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Precio = table.Column<int>(type: "int", nullable: false),
+                    Precio_Total = table.Column<int>(type: "int", nullable: false),
+                    IdProductos = table.Column<int>(type: "int", nullable: false),
+                    IdCompras = table.Column<int>(type: "int", nullable: false),
+                    ComprasId_Compras = table.Column<int>(type: "int", nullable: true),
+                    ProductosIdProductos = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DetallesCompras", x => x.Id_DetallesCompras);
+                    table.ForeignKey(
+                        name: "FK_DetallesCompras_Compras_ComprasId_Compras",
+                        column: x => x.ComprasId_Compras,
+                        principalTable: "Compras",
+                        principalColumn: "Id_Compras");
+                    table.ForeignKey(
+                        name: "FK_DetallesCompras_Productos_ProductosIdProductos",
+                        column: x => x.ProductosIdProductos,
+                        principalTable: "Productos",
+                        principalColumn: "IdProductos");
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Compras_UsuarioId_Usuario",
                 table: "Compras",
                 column: "UsuarioId_Usuario");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetallesCompras_ComprasId_Compras",
+                table: "DetallesCompras",
+                column: "ComprasId_Compras");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetallesCompras_ProductosIdProductos",
+                table: "DetallesCompras",
+                column: "ProductosIdProductos");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Productos_IdCategorias",
@@ -227,22 +233,22 @@ namespace Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Compras");
-
-            migrationBuilder.DropTable(
                 name: "DetallesCompras");
-
-            migrationBuilder.DropTable(
-                name: "Productos");
 
             migrationBuilder.DropTable(
                 name: "Tipos");
 
             migrationBuilder.DropTable(
-                name: "Solicitud");
+                name: "Compras");
+
+            migrationBuilder.DropTable(
+                name: "Productos");
 
             migrationBuilder.DropTable(
                 name: "Categoria");
+
+            migrationBuilder.DropTable(
+                name: "Solicitud");
 
             migrationBuilder.DropTable(
                 name: "Usuario");

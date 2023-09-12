@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ServiceContext))]
-    [Migration("20230912101608_Inicial")]
+    [Migration("20230912114023_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -33,7 +33,7 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_DetallesCompras"));
 
-                    b.Property<int>("Cantidad")
+                    b.Property<int?>("ComprasId_Compras")
                         .HasColumnType("int");
 
                     b.Property<int>("IdCompras")
@@ -45,7 +45,17 @@ namespace Data.Migrations
                     b.Property<int>("Precio")
                         .HasColumnType("int");
 
+                    b.Property<int>("Precio_Total")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductosIdProductos")
+                        .HasColumnType("int");
+
                     b.HasKey("Id_DetallesCompras");
+
+                    b.HasIndex("ComprasId_Compras");
+
+                    b.HasIndex("ProductosIdProductos");
 
                     b.ToTable("DetallesCompras", (string)null);
                 });
@@ -58,11 +68,7 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Categoria"));
 
-                    b.Property<string>("Escultura")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Pintura")
+                    b.Property<string>("Nombre_Categoria")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -79,17 +85,11 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Compras"));
 
-                    b.Property<int?>("ComprasId_Compras")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("FechaEntrega")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaPedido")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("IdProductos")
-                        .HasColumnType("int");
 
                     b.Property<int>("IdUsuario")
                         .HasColumnType("int");
@@ -98,8 +98,6 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id_Compras");
-
-                    b.HasIndex("ComprasId_Compras");
 
                     b.HasIndex("UsuarioId_Usuario");
 
@@ -254,22 +252,10 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdTipos"));
 
-                    b.Property<string>("Acuarela")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Bustos")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ceramicas")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("IdCategoria")
                         .HasColumnType("int");
 
-                    b.Property<string>("Oleo")
+                    b.Property<string>("Nombre_Tipo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -283,12 +269,19 @@ namespace Data.Migrations
                     b.ToTable("Tipos", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.Entities.Compras", b =>
+            modelBuilder.Entity("Entities.DetallesCompras", b =>
                 {
                     b.HasOne("Entities.Entities.Compras", null)
-                        .WithMany("compras")
+                        .WithMany("DetallesCompras")
                         .HasForeignKey("ComprasId_Compras");
 
+                    b.HasOne("Entities.Entities.Productos", null)
+                        .WithMany("DetallesCompras")
+                        .HasForeignKey("ProductosIdProductos");
+                });
+
+            modelBuilder.Entity("Entities.Entities.Compras", b =>
+                {
                     b.HasOne("Entities.Entities.Usuario", null)
                         .WithMany("compras")
                         .HasForeignKey("UsuarioId_Usuario");
@@ -355,7 +348,12 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.Entities.Compras", b =>
                 {
-                    b.Navigation("compras");
+                    b.Navigation("DetallesCompras");
+                });
+
+            modelBuilder.Entity("Entities.Entities.Productos", b =>
+                {
+                    b.Navigation("DetallesCompras");
                 });
 
             modelBuilder.Entity("Entities.Entities.Usuario", b =>

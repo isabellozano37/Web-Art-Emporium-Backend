@@ -14,10 +14,10 @@ namespace Entities.Entities
         [ForeignKey ("Usuario")]
         public int IdUsuario { get; set; }
         
-        [ForeignKey ("Productos")]
-        public int IdProductos { get; set; }        
+        //[ForeignKey ("Productos")]
+        //public int IdProductos { get; set; }        
 
-        public ICollection <Compras> compras { get; set; }
+        public ICollection <DetallesCompras> DetallesCompras { get; set; }
 
     }
 }
