@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Entities.Entities
+   
 {
     public class Roll
     {
@@ -16,4 +17,5 @@ namespace Entities.Entities
         public string Nombre_Roll { get; set; }
 
     }
+    
 }
