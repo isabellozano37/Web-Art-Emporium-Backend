@@ -12,19 +12,18 @@ using Entities.Entities;
 using Entities;
 
 namespace Data
-{ 
+{
 
-   public class ServiceContext : DbContext{
-    public ServiceContext( DbContextOptions<ServiceContext> Options) : base (Options) { }
-    public DbSet<Productos> Productos { get; set; }
-    public DbSet<Clientes> Clientes { get; set; }
-    public DbSet<Categorias> Categorias { get; set; }
-    public DbSet<Compras> Compras { get; set; }
-
-    public DbSet<DetallesCompras> DetallesCompras { get; set; }
-    public DbSet<Roll> Roll { get; set; }
-
-    public DbSet<Tipos> Tipos { get; set; }
+    public class ServiceContext : DbContext {
+        public ServiceContext(DbContextOptions<ServiceContext> Options) : base(Options) { }
+        public DbSet<Productos> Productos { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<Compras> Compras { get; set; }
+        public DbSet<Solicitud> Solicitud { get; set; }
+        public DbSet<DetallesCompras> DetallesCompras { get; set; }
+        public DbSet<Roll> Roll { get; set; }
+        public DbSet<Tipos> Tipos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -32,13 +31,13 @@ namespace Data
             {
                 entity.ToTable("Productos");
             });
-            builder.Entity<Clientes>(entity =>
+            builder.Entity<Usuario>(entity =>
             {
-                entity.ToTable("Clientes");
+                entity.ToTable("Usuario");
             });
-            builder.Entity<Categorias>(entity =>
+            builder.Entity<Categoria>(entity =>
             {
-                entity.ToTable("Categorias");
+                entity.ToTable("Categoria");
             });
             builder.Entity<Compras>(entity =>
             {
@@ -53,29 +52,39 @@ namespace Data
             {
                 entity.ToTable("Roll");
             });
+
             builder.Entity<Tipos>(entity =>
             {
                 entity.ToTable("Tipos");
             });
-        }
 
-    }
-   
-    public class ServiceContextFactory : IDesignTimeDbContextFactory<ServiceContext>
-    {
-        public ServiceContext CreateDbContext(string[] args)
+            builder.Entity<Solicitud>(entity =>
+             {
+               entity.ToTable("Solicitud");
+            });
+
+            }
+
+        }
+            
+              
+
+        public class ServiceContextFactory : IDesignTimeDbContextFactory<ServiceContext>
         {
-            var builder = new ConfigurationBuilder()
-                   .SetBasePath(Directory.GetCurrentDirectory())
-                   .AddJsonFile("appsettings.json", false, true);
-            var config = builder.Build();
-            var connectionString = config.GetConnectionString("ServiceContext");
-            var optionsBuilder = new DbContextOptionsBuilder<ServiceContext>();
-            optionsBuilder.UseSqlServer(config.GetConnectionString("ServiceContext"));
-            return new ServiceContext(optionsBuilder.Options);
+            public ServiceContext CreateDbContext(string[] args)
+            {
+                var builder = new ConfigurationBuilder()
+                       .SetBasePath(Directory.GetCurrentDirectory())
+                       .AddJsonFile("appsettings.json", false, true);
+                var config = builder.Build();
+                var connectionString = config.GetConnectionString("ServiceContext");
+                var optionsBuilder = new DbContextOptionsBuilder<ServiceContext>();
+                optionsBuilder.UseSqlServer(config.GetConnectionString("ServiceContext"));
+                return new ServiceContext(optionsBuilder.Options);
+            }
         }
     }
-}
+
 
 
 

@@ -12,10 +12,15 @@ namespace Entities
         public int Id_DetallesCompras { get; set; }
         public int Precio { get; set; }
         public int Cantidad { get; set; }
+
         [ForeignKey ("Productos")]
         public int IdProductos { get; set;}
+
         [ForeignKey ("Compras")]
-        public int IdCompras { get; set; }  
+        public int IdCompras { get; set; }
+
+        //[ForeignKey("Usuario")]
+        //public int IdUsuario { get; set; }
     }
 
 }

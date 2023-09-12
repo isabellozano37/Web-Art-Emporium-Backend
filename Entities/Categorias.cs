@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Entities.Entities
 {
-    public class Categorias
+    public class Categoria
     {
-        public int Id_Categorias{ get; set; }
+        public int Id_Categoria{ get; set; }
         public string Pintura { get; set; }
         public string Escultura { get; set; }   
 

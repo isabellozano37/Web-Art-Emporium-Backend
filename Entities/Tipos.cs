@@ -17,11 +17,11 @@ namespace Entities
         public string Bustos { get; set;}
         public string Ceramicas { get; set;}
 
-        [ForeignKey ("Categorias")]
-        public int IdCategorias { get; set; }
+        [ForeignKey ("Categoria")]
+        public int IdCategoria { get; set; }
 
         [JsonIgnore]
-        public virtual Categorias categoria { get; set; }
+        public virtual Categoria categoria { get; set; }
 
 
     }
