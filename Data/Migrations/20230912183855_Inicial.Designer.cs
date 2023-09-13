@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ServiceContext))]
-    [Migration("20230912114023_Inicial")]
+    [Migration("20230912183855_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -58,6 +58,36 @@ namespace Data.Migrations
                     b.HasIndex("ProductosIdProductos");
 
                     b.ToTable("DetallesCompras", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.Entities.AuditLog", b =>
+                {
+                    b.Property<int>("IdLog")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdLog"));
+
+                    b.Property<string>("Action")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecordId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TableName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdLog");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AuditLog", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Entities.Categoria", b =>
@@ -116,10 +146,10 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdCategorias")
+                    b.Property<int>("IdSolicitud")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdSolicitud")
+                    b.Property<int>("IdTipos")
                         .HasColumnType("int");
 
                     b.Property<string>("Imagen")
@@ -136,10 +166,9 @@ namespace Data.Migrations
 
                     b.HasKey("IdProductos");
 
-                    b.HasIndex("IdCategorias");
+                    b.HasIndex("IdSolicitud");
 
-                    b.HasIndex("IdSolicitud")
-                        .IsUnique();
+                    b.HasIndex("IdTipos");
 
                     b.ToTable("Productos", (string)null);
                 });
@@ -211,16 +240,17 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Solicitud"));
 
-                    b.Property<string>("Categoria")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Descripción")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdProducto")
-                        .HasColumnType("int");
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdTipo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdUsuario")
                         .HasColumnType("int");
@@ -259,12 +289,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("categoriaId_Categoria")
-                        .HasColumnType("int");
-
                     b.HasKey("IdTipos");
 
-                    b.HasIndex("categoriaId_Categoria");
+                    b.HasIndex("IdCategoria");
 
                     b.ToTable("Tipos", (string)null);
                 });
@@ -280,6 +307,16 @@ namespace Data.Migrations
                         .HasForeignKey("ProductosIdProductos");
                 });
 
+            modelBuilder.Entity("Entities.Entities.AuditLog", b =>
+                {
+                    b.HasOne("Entities.Entities.Usuario", "Usuario")
+                        .WithMany("AuditLogs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("Entities.Entities.Compras", b =>
                 {
                     b.HasOne("Entities.Entities.Usuario", null)
@@ -289,21 +326,21 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.Entities.Productos", b =>
                 {
-                    b.HasOne("Entities.Entities.Categoria", "Categorias")
-                        .WithMany("Productos")
-                        .HasForeignKey("IdCategorias")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Entities.Solicitud", "Solicitud")
-                        .WithOne("Productos")
-                        .HasForeignKey("Entities.Entities.Productos", "IdSolicitud")
+                        .WithMany()
+                        .HasForeignKey("IdSolicitud")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Categorias");
+                    b.HasOne("Entities.Tipos", "Tipos")
+                        .WithMany("Productos")
+                        .HasForeignKey("IdTipos")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Solicitud");
+
+                    b.Navigation("Tipos");
                 });
 
             modelBuilder.Entity("Entities.Entities.Usuario", b =>
@@ -330,20 +367,13 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.Tipos", b =>
                 {
-                    b.HasOne("Entities.Entities.Categoria", "categoria")
-                        .WithMany("Tipos")
-                        .HasForeignKey("categoriaId_Categoria")
+                    b.HasOne("Entities.Entities.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("IdCategoria")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("categoria");
-                });
-
-            modelBuilder.Entity("Entities.Entities.Categoria", b =>
-                {
-                    b.Navigation("Productos");
-
-                    b.Navigation("Tipos");
+                    b.Navigation("Categoria");
                 });
 
             modelBuilder.Entity("Entities.Entities.Compras", b =>
@@ -358,15 +388,16 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.Entities.Usuario", b =>
                 {
+                    b.Navigation("AuditLogs");
+
                     b.Navigation("Solicitud");
 
                     b.Navigation("compras");
                 });
 
-            modelBuilder.Entity("Entities.Solicitud", b =>
+            modelBuilder.Entity("Entities.Tipos", b =>
                 {
-                    b.Navigation("Productos")
-                        .IsRequired();
+                    b.Navigation("Productos");
                 });
 #pragma warning restore 612, 618
         }

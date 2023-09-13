@@ -12,10 +12,10 @@ using Entities;
 
 namespace Data
 {
-
     public class ServiceContext : DbContext {
         public ServiceContext(DbContextOptions<ServiceContext> Options) : base(Options) { }
         public DbSet<Productos> Productos { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<Compras> Compras { get; set; }
@@ -62,27 +62,34 @@ namespace Data
                entity.ToTable("Solicitud");
             });
 
-            }
-
-        }
-            
-              
-
-        public class ServiceContextFactory : IDesignTimeDbContextFactory<ServiceContext>
-        {
-            public ServiceContext CreateDbContext(string[] args)
+            builder.Entity<AuditLog>(entity =>          
             {
-                var builder = new ConfigurationBuilder()
-                       .SetBasePath(Directory.GetCurrentDirectory())
-                       .AddJsonFile("appsettings.json", false, true);
-                var config = builder.Build();
-                var connectionString = config.GetConnectionString("ServiceContext");
-                var optionsBuilder = new DbContextOptionsBuilder<ServiceContext>();
-                optionsBuilder.UseSqlServer(config.GetConnectionString("ServiceContext"));
-                return new ServiceContext(optionsBuilder.Options);
-            }
+                entity.ToTable("AuditLog");
+                entity.HasKey(a => a.IdLog);
+                entity.HasOne(a => a.Usuario)
+                      .WithMany(u => u.AuditLogs)
+                      .HasForeignKey(a => a.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
         }
     }
+    public class ServiceContextFactory : IDesignTimeDbContextFactory<ServiceContext>
+    {
+        public ServiceContext CreateDbContext(string[] args)
+        {
+            var builder = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("appsettings.json", false, true);
+            var config = builder.Build();
+            var connectionString = config.GetConnectionString("ServiceContext");
+            var optionsBuilder = new DbContextOptionsBuilder<ServiceContext>();
+            optionsBuilder.UseSqlServer(config.GetConnectionString("ServiceContext"));
+            return new ServiceContext(optionsBuilder.Options);
+
+        }
+    }
+}
 
 
 

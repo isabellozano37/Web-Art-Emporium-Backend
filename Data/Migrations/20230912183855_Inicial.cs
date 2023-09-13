@@ -44,15 +44,14 @@ namespace Data.Migrations
                     IdTipos = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre_Tipo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdCategoria = table.Column<int>(type: "int", nullable: false),
-                    categoriaId_Categoria = table.Column<int>(type: "int", nullable: false)
+                    IdCategoria = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tipos", x => x.IdTipos);
                     table.ForeignKey(
-                        name: "FK_Tipos_Categoria_categoriaId_Categoria",
-                        column: x => x.categoriaId_Categoria,
+                        name: "FK_Tipos_Categoria_IdCategoria",
+                        column: x => x.IdCategoria,
                         principalTable: "Categoria",
                         principalColumn: "Id_Categoria",
                         onDelete: ReferentialAction.Cascade);
@@ -84,6 +83,29 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AuditLog",
+                columns: table => new
+                {
+                    IdLog = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Action = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TableName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RecordId = table.Column<int>(type: "int", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditLog", x => x.IdLog);
+                    table.ForeignKey(
+                        name: "FK_AuditLog_Usuario_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Usuario",
+                        principalColumn: "Id_Usuario",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Compras",
                 columns: table => new
                 {
@@ -110,13 +132,13 @@ namespace Data.Migrations
                 {
                     Id_Solicitud = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Categoria = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Imagen = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descripción = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Precio = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdProducto = table.Column<int>(type: "int", nullable: false),
-                    IdUsuario = table.Column<int>(type: "int", nullable: false)
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
+                    IdTipo = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,22 +162,22 @@ namespace Data.Migrations
                     Descripción = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Precio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdSolicitud = table.Column<int>(type: "int", nullable: false),
-                    IdCategorias = table.Column<int>(type: "int", nullable: false)
+                    IdTipos = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Productos", x => x.IdProductos);
                     table.ForeignKey(
-                        name: "FK_Productos_Categoria_IdCategorias",
-                        column: x => x.IdCategorias,
-                        principalTable: "Categoria",
-                        principalColumn: "Id_Categoria",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Productos_Solicitud_IdSolicitud",
                         column: x => x.IdSolicitud,
                         principalTable: "Solicitud",
                         principalColumn: "Id_Solicitud",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Productos_Tipos_IdTipos",
+                        column: x => x.IdTipos,
+                        principalTable: "Tipos",
+                        principalColumn: "IdTipos",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -188,6 +210,11 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuditLog_UserId",
+                table: "AuditLog",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Compras_UsuarioId_Usuario",
                 table: "Compras",
                 column: "UsuarioId_Usuario");
@@ -203,15 +230,14 @@ namespace Data.Migrations
                 column: "ProductosIdProductos");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Productos_IdCategorias",
-                table: "Productos",
-                column: "IdCategorias");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Productos_IdSolicitud",
                 table: "Productos",
-                column: "IdSolicitud",
-                unique: true);
+                column: "IdSolicitud");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Productos_IdTipos",
+                table: "Productos",
+                column: "IdTipos");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Solicitud_IdUsuario",
@@ -219,9 +245,9 @@ namespace Data.Migrations
                 column: "IdUsuario");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tipos_categoriaId_Categoria",
+                name: "IX_Tipos_IdCategoria",
                 table: "Tipos",
-                column: "categoriaId_Categoria");
+                column: "IdCategoria");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuario_IdRoll",
@@ -233,10 +259,10 @@ namespace Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DetallesCompras");
+                name: "AuditLog");
 
             migrationBuilder.DropTable(
-                name: "Tipos");
+                name: "DetallesCompras");
 
             migrationBuilder.DropTable(
                 name: "Compras");
@@ -245,13 +271,16 @@ namespace Data.Migrations
                 name: "Productos");
 
             migrationBuilder.DropTable(
-                name: "Categoria");
-
-            migrationBuilder.DropTable(
                 name: "Solicitud");
 
             migrationBuilder.DropTable(
+                name: "Tipos");
+
+            migrationBuilder.DropTable(
                 name: "Usuario");
+
+            migrationBuilder.DropTable(
+                name: "Categoria");
 
             migrationBuilder.DropTable(
                 name: "Roll");

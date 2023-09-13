@@ -21,9 +21,6 @@ namespace Entities
 
         [ForeignKey ("Compras")]
         public int IdCompras { get; set; }
-
-        //[ForeignKey("Usuario")]
-        //public int IdUsuario { get; set; }
     }
 
 }
