@@ -14,14 +14,8 @@ namespace Entities.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id_Categoria{ get; set; }
-        public string Pintura { get; set; }
-        public string Escultura { get; set; }
-
-        public ICollection<Productos> Productos { get; set; }
-        public ICollection<Tipos> Tipos { get; set; }
-
-
+        public int Id_Categoria { get; set; }
+        public string Nombre_Categoria { get; set; }
 
     }
 }

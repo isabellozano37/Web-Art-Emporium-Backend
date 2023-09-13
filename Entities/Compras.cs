@@ -1,6 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Entities.Entities
 {
@@ -11,13 +12,12 @@ namespace Entities.Entities
         public int Id_Compras { get; set; }
         public DateTime FechaPedido { get; set; }
         public DateTime FechaEntrega { get; set; }
+
         [ForeignKey ("Usuario")]
         public int IdUsuario { get; set; }
-        
-        [ForeignKey ("Productos")]
-        public int IdProductos { get; set; }        
 
-        public ICollection <Compras> compras { get; set; }
+        [JsonIgnore]
+        public ICollection <DetallesCompras> DetallesCompras { get; set; }
 
     }
 }

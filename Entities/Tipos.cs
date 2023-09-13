@@ -1,6 +1,7 @@
 ﻿using Entities.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,18 +12,18 @@ namespace Entities
 {
     public class Tipos
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdTipos { get; set; }
-        public string Oleo { get; set;}
-        public string Acuarela { get; set;}
-        public string Bustos { get; set;}
-        public string Ceramicas { get; set;}
+        public string Nombre_Tipo { get; set;}
 
         [ForeignKey ("Categoria")]
         public int IdCategoria { get; set; }
 
         [JsonIgnore]
-        public virtual Categoria categoria { get; set; }
+        public virtual Categoria Categoria { get; set; }
 
-
+        [JsonIgnore]
+        public ICollection<Productos> Productos { get; set; }
     }
 }
