@@ -12,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
+builder.Services.AddScoped<ISolicitudesServicio, SolicitudesServicio>();
+builder.Services.AddScoped<IProductosServicio, ProductosServicio>();
 
 builder.Services.AddDbContext<ServiceContext>(
         options =>

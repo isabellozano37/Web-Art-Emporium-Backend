@@ -1,4 +1,5 @@
 ﻿using Data;
+using Entities;
 using Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Authentication;
@@ -9,39 +10,40 @@ namespace WebApplication1.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Route("[controller]/[action]")]
-    public class UsuarioControles : ControllerBase
+    public class SolicitudesControles : ControllerBase
     {
 
-        private readonly IUsuarioServicio _userService;
+        private readonly ISolicitudesServicio _solicitudService;
         private readonly ServiceContext _serviceContext;
 
-        public UsuarioControles(IUsuarioServicio userService, ServiceContext serviceContext)
+        public SolicitudesControles(ISolicitudesServicio solicitudService, ServiceContext serviceContext)
         {
-            _userService = userService;
+            _solicitudService = solicitudService;
             _serviceContext = serviceContext;
 
         }
 
-        [HttpPost(Name = "InsertUsers")]
-        public int Post([FromQuery] string userNombre_Usuario, [FromQuery] string userContraseña, [FromBody] Usuario usuario)
+        [HttpPost(Name = "InsertSolicitudes")]
+        public int Post([FromQuery] string userNombre_Usuario, [FromQuery] string userContraseña, [FromBody] Solicitud solicitud)
         {
             var seletedUser = _serviceContext.Set<Usuario>()
                                .Where(u => u.Nombre_Usuario == userNombre_Usuario
                                     && u.Contraseña == userContraseña
-                                    && u.IdRoll == 1)
+                                    && u.IdRoll == 2)
                                 .FirstOrDefault();
+
             if (seletedUser != null)
             {
 
                 _serviceContext.AuditLogs.Add(new AuditLog
                 {
                     Action = "Insert",
-                    TableName = "Users",
+                    TableName = "Solicitud",
                     Timestamp = DateTime.Now,
                     UserId = seletedUser.Id_Usuario
                 });
 
-                return _userService.InsertUsers(usuario);
+                return _solicitudService.InsertSolicitudes(solicitud);
             }
             else
             {
@@ -49,44 +51,42 @@ namespace WebApplication1.Controllers
             }
         }
 
-        [HttpPut(Name = "UpdateUser")]
-        public IActionResult UpdateUser(int userId, [FromQuery] string userNombre_Usuario, [FromQuery] string userContraseña, [FromBody] Usuario updatedUser)
+        [HttpPut(Name = "UpdateSolicitud")]
+        public IActionResult UpdateSolicitud(int solicitudId, [FromQuery] string userNombre_Usuario, [FromQuery] string userContraseña, [FromBody] Solicitud updatedSolicitud)
         {
             var seletedUser = _serviceContext.Set<Usuario>()
                                .Where(u => u.Nombre_Usuario == userNombre_Usuario
                                     && u.Contraseña == userContraseña
-                                    && u.IdRoll == 1)
+                                    && u.IdRoll == 2)
                                 .FirstOrDefault();
 
             if (seletedUser != null)
             {
-                var user = _serviceContext.Usuario.FirstOrDefault(p => p.Id_Usuario == userId);
+                var solicitud = _serviceContext.Solicitud.FirstOrDefault(p => p.Id_Solicitud == solicitudId);
 
-                if (user != null)
+                if (solicitud != null)
                 {
-                    user.Nombre_Usuario = updatedUser.Nombre_Usuario;
-                    user.Apellidos_Usuario = updatedUser.Apellidos_Usuario;
-                    user.Direccion_Usuario = updatedUser.Direccion_Usuario;
-                    user.Telefono = updatedUser.Telefono;
-                    user.Email = updatedUser.Email;
-                    user.Contraseña = updatedUser.Contraseña;
-                    user.IdRoll = updatedUser.IdRoll;
+                    solicitud.Imagen = updatedSolicitud.Imagen;
+                    solicitud.Nombre = updatedSolicitud.Nombre;
+                    solicitud.Descripción = updatedSolicitud.Descripción;
+                    solicitud.Precio = updatedSolicitud.Precio;
+                    solicitud.Estado = updatedSolicitud.Estado;
 
                     _serviceContext.AuditLogs.Add(new AuditLog
                     {
                         Action = "Update",
-                        TableName = "Users",
+                        TableName = "Solicitud",
                         Timestamp = DateTime.Now,
                         UserId = seletedUser.Id_Usuario
                     });
 
                     _serviceContext.SaveChanges();
 
-                    return Ok("El ususario se ha actualizado correctamente.");
+                    return Ok("La Solicitud se ha actualizado correctamente.");
                 }
                 else
                 {
-                    return NotFound("No se ha encontrado el usuario con el identificador especificado.");
+                    return NotFound("No se ha encontrado la solicitud con el identificador especificado.");
                 }
             }
             else
@@ -95,20 +95,22 @@ namespace WebApplication1.Controllers
             }
         }
 
-        [HttpGet(Name = "GetUsers")]
-        public IActionResult GetUsers([FromQuery] string userNombre_Usuario, [FromQuery] string userContraseña)
+        [HttpGet(Name = "GetSolicitudes")]
+        public IActionResult GetSolicitudes(int userId, [FromQuery] string userNombre_Usuario, [FromQuery] string userContraseña)
         {
-            var seletedUser = _serviceContext.Set<Usuario>()
-                               .Where(u => u.Nombre_Usuario == userNombre_Usuario
-                                    && u.Contraseña == userContraseña
-                                    && u.IdRoll == 1)
-                                .FirstOrDefault();
+            var selectedUser = _serviceContext.Set<Usuario>()
+                .Where(u => u.Nombre_Usuario == userNombre_Usuario
+                    && u.Contraseña == userContraseña
+                    && u.IdRoll == 2)
+                .FirstOrDefault();
 
-            if (seletedUser != null)
+            if (selectedUser != null)
             {
-                var users = _serviceContext.Usuario.ToList();
+                var solicitudes = _serviceContext.Solicitud
+                    .Where(s => s.IdUsuario == userId) 
+                    .ToList();
 
-                return Ok(users);
+                return Ok(solicitudes);
             }
             else
             {
@@ -116,20 +118,20 @@ namespace WebApplication1.Controllers
             }
         }
 
-        [HttpDelete(Name = "DeleteUser")]
-        public IActionResult DeleteUser(int userId, [FromQuery] string userNombre_Usuario, [FromQuery] string userContraseña)
+        [HttpDelete(Name = "DeleteSolicitud")]
+        public IActionResult DeleteUser(int solicitudId, [FromQuery] string userNombre_Usuario, [FromQuery] string userContraseña)
         {
             var seletedUser = _serviceContext.Set<Usuario>()
                                .Where(u => u.Nombre_Usuario == userNombre_Usuario
                                     && u.Contraseña == userContraseña
-                                    && u.IdRoll == 1)
+                                    && u.IdRoll == 2)
                                 .FirstOrDefault();
 
             if (seletedUser != null)
             {
-                var user = _serviceContext.Usuario.FirstOrDefault(p => p.Id_Usuario == userId);
+                var solicitud = _serviceContext.Solicitud.FirstOrDefault(p => p.Id_Solicitud == solicitudId);
 
-                if (user != null)
+                if (solicitud != null)
                 {
                     _serviceContext.AuditLogs.Add(new AuditLog
                     {
@@ -139,10 +141,10 @@ namespace WebApplication1.Controllers
                         UserId = seletedUser.Id_Usuario
                     });
 
-                    _serviceContext.Usuario.Remove(user);
+                    _serviceContext.Solicitud.Remove(solicitud);
                     _serviceContext.SaveChanges();
 
-                    return Ok("El usuario se ha eliminado correctamente.");
+                    return Ok("La solicitud se ha eliminado correctamente.");
                 }
                 else
                 {
