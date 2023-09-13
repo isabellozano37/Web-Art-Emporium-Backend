@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ServiceContext))]
-    [Migration("20230912183855_Inicial")]
+    [Migration("20230913175620_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.10")
+                .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -146,10 +146,17 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("IdSolicitud")
                         .HasColumnType("int");
 
                     b.Property<int>("IdTipos")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUsuario")
                         .HasColumnType("int");
 
                     b.Property<string>("Imagen")
@@ -248,9 +255,8 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdTipo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("IdTipos")
+                        .HasColumnType("int");
 
                     b.Property<int>("IdUsuario")
                         .HasColumnType("int");

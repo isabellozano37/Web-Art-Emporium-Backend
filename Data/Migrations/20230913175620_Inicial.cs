@@ -138,7 +138,7 @@ namespace Data.Migrations
                     Precio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdUsuario = table.Column<int>(type: "int", nullable: false),
-                    IdTipo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    IdTipos = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,8 +161,10 @@ namespace Data.Migrations
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descripción = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Precio = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdSolicitud = table.Column<int>(type: "int", nullable: false),
-                    IdTipos = table.Column<int>(type: "int", nullable: false)
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
+                    IdTipos = table.Column<int>(type: "int", nullable: false),
+                    IdSolicitud = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

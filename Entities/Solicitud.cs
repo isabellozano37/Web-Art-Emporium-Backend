@@ -12,6 +12,8 @@ namespace Entities
 {
     public class Solicitud
     {
+        public readonly string Descripcion;
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id_Solicitud { get; set; }
@@ -25,7 +27,7 @@ namespace Entities
         public int IdUsuario { get; set; }
 
         [ForeignKey("Tipos")]
-        public string IdTipo { get; set; }
+        public int IdTipos { get; set; }
 
         [JsonIgnore]
         public virtual Usuario Usuario { get; set; }

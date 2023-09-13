@@ -18,6 +18,7 @@ namespace Entities.Entities
         public string Nombre { get; set; }
         public string Descripción { get; set;}
         public string Precio { get; set; }
+        public string Estado { get; set; }
 
         [ForeignKey ("Solicitud")]
         public int IdSolicitud { get; set; }
@@ -33,6 +34,7 @@ namespace Entities.Entities
 
         [JsonIgnore]
         public ICollection<DetallesCompras> DetallesCompras { get; set; }
+
 
     }
 }
