@@ -15,6 +15,7 @@ namespace Data
     public class ServiceContext : DbContext {
         public ServiceContext(DbContextOptions<ServiceContext> Options) : base(Options) { }
         public DbSet<Productos> Productos { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<Compras> Compras { get; set; }
@@ -61,8 +62,17 @@ namespace Data
                entity.ToTable("Solicitud");
             });
 
-        }
+            builder.Entity<AuditLog>(entity =>          
+            {
+                entity.ToTable("AuditLog");
+                entity.HasKey(a => a.IdLog);
+                entity.HasOne(a => a.Usuario)
+                      .WithMany(u => u.AuditLogs)
+                      .HasForeignKey(a => a.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
 
+        }
     }
     public class ServiceContextFactory : IDesignTimeDbContextFactory<ServiceContext>
     {

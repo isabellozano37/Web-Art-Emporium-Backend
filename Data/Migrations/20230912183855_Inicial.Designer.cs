@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ServiceContext))]
-    [Migration("20230912180611_Inicial")]
+    [Migration("20230912183855_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -58,6 +58,36 @@ namespace Data.Migrations
                     b.HasIndex("ProductosIdProductos");
 
                     b.ToTable("DetallesCompras", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.Entities.AuditLog", b =>
+                {
+                    b.Property<int>("IdLog")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdLog"));
+
+                    b.Property<string>("Action")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecordId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TableName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdLog");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AuditLog", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Entities.Categoria", b =>
@@ -277,6 +307,16 @@ namespace Data.Migrations
                         .HasForeignKey("ProductosIdProductos");
                 });
 
+            modelBuilder.Entity("Entities.Entities.AuditLog", b =>
+                {
+                    b.HasOne("Entities.Entities.Usuario", "Usuario")
+                        .WithMany("AuditLogs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("Entities.Entities.Compras", b =>
                 {
                     b.HasOne("Entities.Entities.Usuario", null)
@@ -348,6 +388,8 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.Entities.Usuario", b =>
                 {
+                    b.Navigation("AuditLogs");
+
                     b.Navigation("Solicitud");
 
                     b.Navigation("compras");
