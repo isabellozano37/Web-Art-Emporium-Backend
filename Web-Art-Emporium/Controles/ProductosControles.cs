@@ -115,6 +115,21 @@ namespace WebApplication1.Controllers
                 return Unauthorized("El usuario no está autorizado o no existe");
             }
         }
+
+        [HttpGet]
+        [Route("ProductosPorTipo/{tipoId}")]
+        public IActionResult ProductosPorTipo(int tipoId)
+        {
+            // Realiza una consulta para obtener los productos por tipoId
+            var productosPorTipo = _productoService.ObtenerProductosPorTipo(tipoId);
+
+            if (productosPorTipo == null)
+            {
+                return NotFound("No se encontraron productos para este tipo.");
+            }
+
+            return Ok(productosPorTipo);
+        }
     }
 }
 

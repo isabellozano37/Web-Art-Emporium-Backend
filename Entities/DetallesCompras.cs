@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Entities.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Entities
@@ -13,14 +15,15 @@ namespace Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id_DetallesCompras { get; set; }
-        public int Precio { get; set; }
-        public int Precio_Total { get; set; }
 
-        [ForeignKey ("Productos")]
-        public int IdProductos { get; set;}
+        public int Precio_Total { get; set; }
 
         [ForeignKey ("Compras")]
         public int IdCompras { get; set; }
+
+        [JsonIgnore]
+        public virtual Compras Compras { get; set; }
+
     }
 
 }

@@ -113,17 +113,17 @@ namespace Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FechaPedido = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FechaEntrega = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUsuario = table.Column<int>(type: "int", nullable: false),
-                    UsuarioId_Usuario = table.Column<int>(type: "int", nullable: true)
+                    IdUsuario = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Compras", x => x.Id_Compras);
                     table.ForeignKey(
-                        name: "FK_Compras_Usuario_UsuarioId_Usuario",
-                        column: x => x.UsuarioId_Usuario,
+                        name: "FK_Compras_Usuario_IdUsuario",
+                        column: x => x.IdUsuario,
                         principalTable: "Usuario",
-                        principalColumn: "Id_Usuario");
+                        principalColumn: "Id_Usuario",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,21 +188,19 @@ namespace Data.Migrations
                 {
                     Id_DetallesCompras = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Precio = table.Column<int>(type: "int", nullable: false),
                     Precio_Total = table.Column<int>(type: "int", nullable: false),
-                    IdProductos = table.Column<int>(type: "int", nullable: false),
                     IdCompras = table.Column<int>(type: "int", nullable: false),
-                    ComprasId_Compras = table.Column<int>(type: "int", nullable: true),
                     ProductosIdProductos = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DetallesCompras", x => x.Id_DetallesCompras);
                     table.ForeignKey(
-                        name: "FK_DetallesCompras_Compras_ComprasId_Compras",
-                        column: x => x.ComprasId_Compras,
+                        name: "FK_DetallesCompras_Compras_IdCompras",
+                        column: x => x.IdCompras,
                         principalTable: "Compras",
-                        principalColumn: "Id_Compras");
+                        principalColumn: "Id_Compras",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DetallesCompras_Productos_ProductosIdProductos",
                         column: x => x.ProductosIdProductos,
@@ -216,14 +214,14 @@ namespace Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Compras_UsuarioId_Usuario",
+                name: "IX_Compras_IdUsuario",
                 table: "Compras",
-                column: "UsuarioId_Usuario");
+                column: "IdUsuario");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DetallesCompras_ComprasId_Compras",
+                name: "IX_DetallesCompras_IdCompras",
                 table: "DetallesCompras",
-                column: "ComprasId_Compras");
+                column: "IdCompras");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DetallesCompras_ProductosIdProductos",

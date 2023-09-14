@@ -17,6 +17,9 @@ namespace Entities.Entities
         public int IdUsuario { get; set; }
 
         [JsonIgnore]
+        public virtual Usuario Usuario { get; set; }
+
+        [JsonIgnore]
         public ICollection <DetallesCompras> DetallesCompras { get; set; }
 
     }

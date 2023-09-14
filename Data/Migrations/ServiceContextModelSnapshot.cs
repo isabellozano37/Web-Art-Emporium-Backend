@@ -30,16 +30,7 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_DetallesCompras"));
 
-                    b.Property<int?>("ComprasId_Compras")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdCompras")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdProductos")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Precio")
                         .HasColumnType("int");
 
                     b.Property<int>("Precio_Total")
@@ -50,7 +41,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id_DetallesCompras");
 
-                    b.HasIndex("ComprasId_Compras");
+                    b.HasIndex("IdCompras");
 
                     b.HasIndex("ProductosIdProductos");
 
@@ -121,12 +112,9 @@ namespace Data.Migrations
                     b.Property<int>("IdUsuario")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UsuarioId_Usuario")
-                        .HasColumnType("int");
-
                     b.HasKey("Id_Compras");
 
-                    b.HasIndex("UsuarioId_Usuario");
+                    b.HasIndex("IdUsuario");
 
                     b.ToTable("Compras", (string)null);
                 });
@@ -298,13 +286,17 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.DetallesCompras", b =>
                 {
-                    b.HasOne("Entities.Entities.Compras", null)
+                    b.HasOne("Entities.Entities.Compras", "Compras")
                         .WithMany("DetallesCompras")
-                        .HasForeignKey("ComprasId_Compras");
+                        .HasForeignKey("IdCompras")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entities.Entities.Productos", null)
                         .WithMany("DetallesCompras")
                         .HasForeignKey("ProductosIdProductos");
+
+                    b.Navigation("Compras");
                 });
 
             modelBuilder.Entity("Entities.Entities.AuditLog", b =>
@@ -319,9 +311,13 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.Entities.Compras", b =>
                 {
-                    b.HasOne("Entities.Entities.Usuario", null)
+                    b.HasOne("Entities.Entities.Usuario", "Usuario")
                         .WithMany("compras")
-                        .HasForeignKey("UsuarioId_Usuario");
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Entities.Entities.Productos", b =>
