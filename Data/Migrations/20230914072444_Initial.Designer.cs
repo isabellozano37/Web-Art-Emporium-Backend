@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ServiceContext))]
-    [Migration("20230913175620_Inicial")]
-    partial class Inicial
+    [Migration("20230914072444_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,9 +154,6 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("IdTipos")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdUsuario")
                         .HasColumnType("int");
 
                     b.Property<string>("Imagen")

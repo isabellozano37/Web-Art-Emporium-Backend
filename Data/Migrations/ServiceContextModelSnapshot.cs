@@ -153,9 +153,6 @@ namespace Data.Migrations
                     b.Property<int>("IdTipos")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdUsuario")
-                        .HasColumnType("int");
-
                     b.Property<string>("Imagen")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
