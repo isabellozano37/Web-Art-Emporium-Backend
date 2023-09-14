@@ -36,7 +36,5 @@ namespace Entities
         public virtual Usuario Usuario { get; set; }
 
 
-
-
     }
 }

@@ -2,6 +2,7 @@
 using Entities;
 using Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Security.Authentication;
@@ -47,7 +48,10 @@ namespace WebApplication1.Controllers
                         UserId = selectedUser.Id_Usuario
                     });
 
-                    
+                    solicitud.Estado = "Aceptado";
+                    _serviceContext.Entry(solicitud).State = EntityState.Modified;
+                    _serviceContext.SaveChanges();
+
                     _productoService.InsertProductos(new Productos
                     {
                         Imagen = solicitud.Imagen,
@@ -60,7 +64,6 @@ namespace WebApplication1.Controllers
                     });
 
                     //_serviceContext.Solicitud.Remove(solicitud);
-                    
 
                     return Ok("La solicitud se ha aceptado y el producto se ha guardado correctamente en la tabla 'Productos'.");
                 }
