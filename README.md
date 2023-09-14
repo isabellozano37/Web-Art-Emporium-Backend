@@ -56,7 +56,7 @@ Hemos diseñado y creado prototipos de las interfaces de usuario. Puedes ver aqu
 4.- Instala las dependencias: npm install (**Axios**,  **J-son**,  **Cloudinariy**, **React**) 
 5.- Inicia la aplicación: npm start
 6. Ejecuta la aplicación y comienza a explorar las obras de arte o a contribuir como Exponente. (**Swagger** , **SQL Server** , **C#**) - 🔨
-Debes de considerar que estas otras herramientas tecnológicas, como: - **Trello** y - **Figma** son importantes en la relización del proyecto. 
+Debes de considerar que estas otras herramientas tecnológicas, como: - **Trello** [Enlace](https://trello.com/b/b1DVprfq/proyecto-7) y - **Figma** son importantes en la relización del proyecto. 
 
 ## Contribución
 Si deseas contribuir a este proyecto, sigue estos pasos:
