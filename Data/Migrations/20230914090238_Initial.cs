@@ -137,8 +137,8 @@ namespace Data.Migrations
                     Descripción = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Precio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdUsuario = table.Column<int>(type: "int", nullable: false),
-                    IdTipos = table.Column<int>(type: "int", nullable: false)
+                    IdTipos = table.Column<int>(type: "int", nullable: false),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

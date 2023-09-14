@@ -59,8 +59,8 @@ namespace WebApplication1.Controllers
                         IdTipos = solicitud.IdTipos
                     });
 
-                    _serviceContext.Solicitud.Remove(solicitud);
-                    _serviceContext.SaveChanges();
+                    //_serviceContext.Solicitud.Remove(solicitud);
+                    
 
                     return Ok("La solicitud se ha aceptado y el producto se ha guardado correctamente en la tabla 'Productos'.");
                 }

@@ -23,14 +23,19 @@ namespace Entities
         public string Precio { get; set; }
         public string Estado { get; set; }
 
+        //[ForeignKey("Tipos")]
+        public int IdTipos { get; set; }
+
+        //[JsonIgnore]
+        //public virtual Tipos Tipos { get; set; }
+
         [ForeignKey("Usuario")]
         public int IdUsuario { get; set; }
 
-        [ForeignKey("Tipos")]
-        public int IdTipos { get; set; }
-
         [JsonIgnore]
         public virtual Usuario Usuario { get; set; }
+
+
 
 
     }

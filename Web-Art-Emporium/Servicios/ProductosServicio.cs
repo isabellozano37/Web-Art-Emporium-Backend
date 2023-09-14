@@ -13,6 +13,7 @@ namespace WebApplication1.Services
         public int InsertProductos(Productos productos)
         {
             _serviceContext.Productos.Add(productos);
+            _serviceContext.SaveChanges();
             return productos.IdProductos;
         }
     }
