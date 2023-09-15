@@ -1,5 +1,7 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
+using Web_Art_Emporium.IServicios;
+using Web_Art_Emporium.Servicios;
 using WebApplication1.IServices;
 using WebApplication1.Services;
 
@@ -14,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
 builder.Services.AddScoped<ISolicitudesServicio, SolicitudesServicio>();
 builder.Services.AddScoped<IProductosServicio, ProductosServicio>();
+builder.Services.AddScoped<IComprasServicio, ComprasServicio>();
 
 builder.Services.AddDbContext<ServiceContext>(
         options =>
