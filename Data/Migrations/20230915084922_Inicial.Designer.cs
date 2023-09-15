@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ServiceContext))]
-    [Migration("20230914105640_Initial")]
-    partial class Initial
+    [Migration("20230915084922_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,17 +36,17 @@ namespace Data.Migrations
                     b.Property<int>("IdCompras")
                         .HasColumnType("int");
 
-                    b.Property<int>("Precio_Total")
+                    b.Property<int>("IdProducto")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductosIdProductos")
+                    b.Property<int>("Precio_Total")
                         .HasColumnType("int");
 
                     b.HasKey("Id_DetallesCompras");
 
                     b.HasIndex("IdCompras");
 
-                    b.HasIndex("ProductosIdProductos");
+                    b.HasIndex("IdProducto");
 
                     b.ToTable("DetallesCompras", (string)null);
                 });
@@ -295,11 +295,15 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Entities.Productos", null)
+                    b.HasOne("Entities.Entities.Productos", "Productos")
                         .WithMany("DetallesCompras")
-                        .HasForeignKey("ProductosIdProductos");
+                        .HasForeignKey("IdProducto")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Compras");
+
+                    b.Navigation("Productos");
                 });
 
             modelBuilder.Entity("Entities.Entities.AuditLog", b =>

@@ -24,6 +24,12 @@ namespace Entities
         [JsonIgnore]
         public virtual Compras Compras { get; set; }
 
+        [ForeignKey("Productos")]
+        public int IdProducto { get; set; }
+
+        [JsonIgnore]
+        public virtual  Productos Productos { get; set; }
+
     }
 
 }

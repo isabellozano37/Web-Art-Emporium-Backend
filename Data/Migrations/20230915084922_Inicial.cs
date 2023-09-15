@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -173,7 +173,7 @@ namespace Data.Migrations
                         column: x => x.IdSolicitud,
                         principalTable: "Solicitud",
                         principalColumn: "Id_Solicitud",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Productos_Tipos_IdTipos",
                         column: x => x.IdTipos,
@@ -190,7 +190,7 @@ namespace Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Precio_Total = table.Column<int>(type: "int", nullable: false),
                     IdCompras = table.Column<int>(type: "int", nullable: false),
-                    ProductosIdProductos = table.Column<int>(type: "int", nullable: true)
+                    IdProducto = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -202,10 +202,11 @@ namespace Data.Migrations
                         principalColumn: "Id_Compras",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DetallesCompras_Productos_ProductosIdProductos",
-                        column: x => x.ProductosIdProductos,
+                        name: "FK_DetallesCompras_Productos_IdProducto",
+                        column: x => x.IdProducto,
                         principalTable: "Productos",
-                        principalColumn: "IdProductos");
+                        principalColumn: "IdProductos",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -224,9 +225,9 @@ namespace Data.Migrations
                 column: "IdCompras");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DetallesCompras_ProductosIdProductos",
+                name: "IX_DetallesCompras_IdProducto",
                 table: "DetallesCompras",
-                column: "ProductosIdProductos");
+                column: "IdProducto");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Productos_IdSolicitud",

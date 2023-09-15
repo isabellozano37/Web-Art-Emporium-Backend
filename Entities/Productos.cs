@@ -32,7 +32,6 @@ namespace Entities.Entities
         [JsonIgnore]
         public virtual Tipos Tipos { get; set; }
 
-        [JsonIgnore]
         public ICollection<DetallesCompras> DetallesCompras { get; set; }
 
 

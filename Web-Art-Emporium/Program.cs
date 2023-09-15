@@ -17,6 +17,8 @@ builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
 builder.Services.AddScoped<ISolicitudesServicio, SolicitudesServicio>();
 builder.Services.AddScoped<IProductosServicio, ProductosServicio>();
 builder.Services.AddScoped<IComprasServicio, ComprasServicio>();
+builder.Services.AddScoped<IDetalleCompraServicio, DetalleCompraServicio>();
+
 
 builder.Services.AddDbContext<ServiceContext>(
         options =>
